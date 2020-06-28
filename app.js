@@ -6,8 +6,14 @@ function slider()
     var images = ['bar.jpg', 'baz.jpg', 'bird.jpg', 'dev.jpg', 'example.jpg', 'foo.jpg', 'rocks.jpg', 'test.jpg'];
     var img = document.getElementById("app-img");
     var specificImageBox = document.getElementById("specific-image-box");
+    var activeImage;
+    var inActiveImage;
     totalImages = images.length;
-    if(x === totalImages) x = 0;
+    if(x === totalImages){
+        inActiveImage = document.getElementById(x - 1);
+        inActiveImage.removeAttribute("style");
+        x = 0;
+    }
     img.src = 'images/' + images[x];
     x++;
     if(!selectorsDisplayed){
@@ -20,6 +26,12 @@ function slider()
             specificImageBox.appendChild(div);
         }
     }
+    activeImage = document.getElementById(x - 1);
+    if(x > 1){
+        inActiveImage = document.getElementById(x - 2);
+        inActiveImage.removeAttribute("style");
+    }
+    activeImage.setAttribute("style", "background-color: red");
     timerData = setTimeout(slider, 2000);
 }
 
@@ -43,6 +55,10 @@ function start()
 function previous()
 {
     clearTimeout(timerData);
+    var allImages = document.getElementsByClassName("specific-image");
+    for(var i = 0; i < allImages.length; i++){
+        allImages[i].removeAttribute("style");
+    }
     x = x - 2;
     if(x < 0) x = totalImages - 1;
     slider();
@@ -57,6 +73,10 @@ function next()
 function change()
 {
     clearTimeout(timerData);
+    var allImages = document.getElementsByClassName("specific-image");
+    for(var i = 0; i < allImages.length; i++){
+        allImages[i].removeAttribute("style");
+    }
     x = parseInt(this.id);
     slider();
 }
