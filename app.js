@@ -1,13 +1,25 @@
 var x = timerData = totalImages = 0;
+var selectorsDisplayed = false;
 
 function slider()
 {
     var images = ['bar.jpg', 'baz.jpg', 'bird.jpg', 'dev.jpg', 'example.jpg', 'foo.jpg', 'rocks.jpg', 'test.jpg'];
     var img = document.getElementById("app-img");
+    var specificImageBox = document.getElementById("specific-image-box");
     totalImages = images.length;
     if(x === totalImages) x = 0;
     img.src = 'images/' + images[x];
     x++;
+    if(!selectorsDisplayed){
+        selectorsDisplayed = true;
+        for(var i = 0; i < totalImages; i++){
+            var div = document.createElement("div");
+            div.setAttribute("class", "specific-image");
+            div.setAttribute("id", i);
+            div.addEventListener("click", change);
+            specificImageBox.appendChild(div);
+        }
+    }
     timerData = setTimeout(slider, 2000);
 }
 
@@ -39,5 +51,12 @@ function previous()
 function next()
 {
     clearTimeout(timerData);
+    slider();
+}
+
+function change()
+{
+    clearTimeout(timerData);
+    x = parseInt(this.id);
     slider();
 }
